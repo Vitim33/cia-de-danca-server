@@ -14,6 +14,15 @@ const loginSchema = Joi.object({
   password: Joi.string().min(3).max(30).required(),
 });
 
+const forgotPasswordSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
+
+const resetPasswordSchema = Joi.object({
+  token: Joi.string().min(32).required(),
+  password: Joi.string().min(3).max(30).required(),
+});
+
 const validate = (schema) => (req, res, next) => {
   const { error } = schema.validate(req.body, { abortEarly: false });
   if (error) {
@@ -28,4 +37,6 @@ const validate = (schema) => (req, res, next) => {
 module.exports = {
   validateRegister: validate(registerSchema),
   validateLogin: validate(loginSchema),
+  validateForgotPassword: validate(forgotPasswordSchema),
+  validateResetPassword: validate(resetPasswordSchema),
 };

@@ -28,6 +28,14 @@ const Users = sequelize.define("Users", {
     allowNull: false,
     defaultValue: "evaluator",
   },
+  passwordResetToken: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  passwordResetExpires: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
 });
 
 module.exports = Users;

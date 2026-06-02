@@ -6,6 +6,7 @@ const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 const sequelize = require("./src/config/database");
+const userService = require("./src/services/user.service");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,7 +14,12 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
+app.use(express.static(path.join(__dirname, "public")));
 app.use("/docs", express.static(path.join(__dirname, "docs")));
+
+app.get("/forgot-password", (_req, res) => {
+  res.sendFile(path.join(__dirname, "public", "forgot-password.html"));
+});
 
 const swaggerDocument = YAML.load(path.join(__dirname, "docs", "swagger.yaml"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -37,6 +43,8 @@ const syncDb = async () => {
     console.log("Conexao com o banco de dados estabelecida com sucesso.");
     await sequelize.sync({ alter: true });
     console.log("Modelos da Cia de Danca sincronizados com o banco de dados.");
+    await userService.seedDefaultUsers();
+    console.log("Usuarios iniciais da Cia de Danca prontos para o app.");
   } catch (error) {
     console.error("Erro ao conectar ou sincronizar o banco:", error);
   }

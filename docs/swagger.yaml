@@ -43,6 +43,36 @@ paths:
           description: Login realizado
         "401":
           description: Credenciais invalidas
+  /users/forgot-password:
+    post:
+      summary: Solicita recuperacao de senha
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ForgotPasswordRequest"
+      responses:
+        "200":
+          description: Instrucoes de recuperacao enviadas quando o e-mail existir
+        "400":
+          description: Erro de validacao
+  /users/reset-password:
+    post:
+      summary: Redefine senha com token de recuperacao
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResetPasswordRequest"
+      responses:
+        "200":
+          description: Senha redefinida
+        "400":
+          description: Token invalido, expirado ou erro de validacao
   /users/me:
     get:
       summary: Usuario autenticado
@@ -95,6 +125,20 @@ components:
       required: [email, password]
       properties:
         email:
+          type: string
+        password:
+          type: string
+    ForgotPasswordRequest:
+      type: object
+      required: [email]
+      properties:
+        email:
+          type: string
+    ResetPasswordRequest:
+      type: object
+      required: [token, password]
+      properties:
+        token:
           type: string
         password:
           type: string

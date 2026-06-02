@@ -26,7 +26,31 @@ class UserController {
   async getCurrentUser(req, res, next) {
     try {
       const result = await userService.getCurrentUser(req.user.id);
+      if (result.success) {
+        result.token = req.token;
+      }
       res.status(result.success ? 200 : 404).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async forgotPassword(req, res, next) {
+    try {
+      const { email } = req.body;
+      const origin = `${req.protocol}://${req.get("host")}`;
+      const result = await userService.forgotPassword(email, origin);
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async resetPassword(req, res, next) {
+    try {
+      const { token, password } = req.body;
+      const result = await userService.resetPassword(token, password);
+      res.status(result.success ? 200 : 400).json(result);
     } catch (error) {
       next(error);
     }
