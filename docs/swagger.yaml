@@ -1,0 +1,111 @@
+﻿openapi: 3.0.0
+info:
+  title: Cia de Danca API
+  description: API para autenticacao e dados do campeonato Cia de Danca.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Servidor local
+paths:
+  /health:
+    get:
+      summary: Status da API
+      responses:
+        "200":
+          description: API online
+  /users/register:
+    post:
+      summary: Cadastra usuario
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+      responses:
+        "200":
+          description: Usuario cadastrado
+        "400":
+          description: Erro de validacao
+  /users/login:
+    post:
+      summary: Login de usuario
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login realizado
+        "401":
+          description: Credenciais invalidas
+  /users/me:
+    get:
+      summary: Usuario autenticado
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Usuario atual
+        "401":
+          description: Token invalido
+  /users/logout:
+    post:
+      summary: Logout de usuario
+      tags: [Users]
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Logout realizado
+  /championship/app-data:
+    get:
+      summary: Dados do campeonato
+      tags: [Championship]
+      responses:
+        "200":
+          description: Dados do campeonato
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    RegisterRequest:
+      type: object
+      required: [name, email, password, role]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+          enum: [evaluator, admin, professional]
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
