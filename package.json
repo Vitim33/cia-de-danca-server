@@ -1,6 +1,7 @@
 ﻿{
   "name": "cia_de_danca_server",
   "version": "1.0.0",
+  "license": "UNLICENSED",
   "description": "API da Cia de Danca para autenticacao e dados de campeonato.",
   "main": "index.js",
   "type": "commonjs",
