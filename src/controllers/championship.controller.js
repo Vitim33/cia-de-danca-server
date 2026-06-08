@@ -1,12 +1,71 @@
-﻿const appData = require("../data/championship.data");
+const evaluationService = require("../services/evaluation.service");
 
 class ChampionshipController {
-  getAppData(_req, res) {
-    res.json({
-      success: true,
-      message: "Dados do campeonato obtidos com sucesso",
-      data: appData,
-    });
+  async getAppData(_req, res, next) {
+    try {
+      const data = await evaluationService.getAppData();
+      res.json({
+        success: true,
+        message: "Dados do campeonato obtidos com sucesso",
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async listEvaluations(_req, res, next) {
+    try {
+      const evaluations = await evaluationService.listEvaluations();
+      res.json({
+        success: true,
+        message: "Avaliacoes obtidas com sucesso",
+        data: evaluations,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async saveEvaluation(req, res, next) {
+    try {
+      const { groupName, criterion, score, comment, championshipId } = req.body;
+
+      if (!groupName || !criterion || typeof score !== "number") {
+        return res.status(400).json({
+          success: false,
+          message: "Informe groupName, criterion e score numerico",
+        });
+      }
+
+      if (score < 0 || score > 10) {
+        return res.status(400).json({
+          success: false,
+          message: "A nota deve estar entre 0 e 10",
+        });
+      }
+
+      const evaluation = await evaluationService.saveEvaluation({
+        championshipId,
+        groupName,
+        criterion,
+        score,
+        comment,
+        evaluator: req.user,
+      });
+      const appData = await evaluationService.getAppData(championshipId);
+
+      return res.status(201).json({
+        success: true,
+        message: "Avaliacao salva com sucesso",
+        data: {
+          evaluation,
+          appData,
+        },
+      });
+    } catch (error) {
+      return next(error);
+    }
   }
 }
 
