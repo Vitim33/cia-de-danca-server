@@ -24,9 +24,9 @@ const Users = sequelize.define("Users", {
     allowNull: false,
   },
   role: {
-    type: DataTypes.ENUM("evaluator", "admin", "professional"),
+    type: DataTypes.ENUM("user", "evaluator", "admin", "professional"),
     allowNull: false,
-    defaultValue: "evaluator",
+    defaultValue: "user",
   },
   passwordResetToken: {
     type: DataTypes.STRING,

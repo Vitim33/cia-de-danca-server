@@ -16,14 +16,19 @@ const publicUser = (user) => ({
 const hashResetToken = (token) => crypto.createHash("sha256").update(token).digest("hex");
 
 class UserService {
-  async register(name, email, password, role) {
+  async register(name, email, password, role = "user") {
     const existingUser = await Users.findOne({ where: { email } });
     if (existingUser) {
       return { success: false, message: "E-mail ja cadastrado" };
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await Users.create({ name, email, password: hashedPassword, role });
+    const user = await Users.create({
+      name,
+      email,
+      password: hashedPassword,
+      role: role || "user",
+    });
     const token = this.createToken(user);
 
     return {

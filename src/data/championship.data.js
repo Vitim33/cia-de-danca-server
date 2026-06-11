@@ -8,6 +8,8 @@ module.exports = {
       currentRound: "Quartas de Final",
       administratorName: "Carlos Almeida",
       administratorEmail: "admin@dancechamp.com",
+      evaluatorEmails: ["juliana.avaliador@email.com"],
+      participantEmails: ["beatriz.dance@email.com"],
     },
   ],
   performance: {
@@ -17,8 +19,20 @@ module.exports = {
     remainingTime: "04:35",
   },
   groups: [
-    { name: "Cia. Dance Power", score: 0, category: "Adulto", avatarColor: 0xFFE0A929 },
-    { name: "Movimento Urbano", score: 0, category: "Adulto", avatarColor: 0xFFB5BDC8 },
+    {
+      name: "Cia. Dance Power",
+      score: 0,
+      category: "Adulto",
+      avatarColor: 0xFFE0A929,
+      participantEmails: ["beatriz.dance@email.com"],
+    },
+    {
+      name: "Movimento Urbano",
+      score: 0,
+      category: "Adulto",
+      avatarColor: 0xFFB5BDC8,
+      participantEmails: ["beatriz.dance@email.com"],
+    },
     { name: "Soul Dance", score: 0, category: "Junior", avatarColor: 0xFFC97931 },
     { name: "New Wave Crew", score: 0, category: "Adulto", avatarColor: 0xFF7B8CFF },
     { name: "Step by Step", score: 0, category: "Infantil", avatarColor: 0xFFDD6ACB },
@@ -27,6 +41,17 @@ module.exports = {
     { name: "Pure Motion", score: 0, category: "Infantil", avatarColor: 0xFFA88BFF },
   ],
   profiles: [
+    {
+      name: "Usuario",
+      email: "usuario@email.com",
+      role: "user",
+      photoColor: 0xFFE6C1AF,
+      stats: [
+        { label: "Competicoes", value: "0" },
+        { label: "Inscricoes", value: "0" },
+        { label: "Perfil", value: "Ativo" },
+      ],
+    },
     {
       name: "Juliana Souza",
       email: "juliana.avaliador@email.com",

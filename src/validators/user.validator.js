@@ -1,12 +1,12 @@
 ﻿const Joi = require("joi");
 
-const roles = ["evaluator", "admin", "professional"];
+const roles = ["user", "evaluator", "admin", "professional"];
 
 const registerSchema = Joi.object({
   name: Joi.string().min(3).max(80).required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(3).max(30).required(),
-  role: Joi.string().valid(...roles).required(),
+  role: Joi.string().valid(...roles).default("user"),
 });
 
 const loginSchema = Joi.object({
